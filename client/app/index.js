@@ -10,7 +10,7 @@ const client = new userProtoGrpc.user.UserService(
 );
 
 client.CreateUser(
-  { name: "cody proo", isMarried: false, skills: ["react", "nodejs"], role: 1 },
+  { name: "poooo tak", isMarried: false, skills: ["rap", "music"], role: 1 },
   (err, message) => {
     console.log(err, message);
   }

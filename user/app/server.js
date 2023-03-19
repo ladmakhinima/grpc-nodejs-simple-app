@@ -1,15 +1,17 @@
+require("./db-connection");
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 const path = require("path");
+const { UserModel } = require("./user.model");
 const userProtoPath = path.join(__dirname, "..", "..", "protos", "user.proto");
 const userProto = protoLoader.loadSync(userProtoPath);
 const userProtoGrpc = grpc.loadPackageDefinition(userProto);
 const server = new grpc.Server();
 const userServiceImpl = {
-  CreateUser: function (call, callback) {
-    const newUser = { ...call.request, id: 1 };
-    console.log("new user", newUser);
-    callback(null, newUser);
+  CreateUser: async function (call, callback) {
+    const user = new UserModel(call.request);
+    await user.save();
+    callback(null, user);
   },
 };
 server.addService(userProtoGrpc.user.UserService.service, userServiceImpl);
