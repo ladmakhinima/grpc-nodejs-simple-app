@@ -1,0 +1,16 @@
+{
+  "name": "learning-grpc-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "exec:user-server": "nodemon ./user/app/server.js",
+    "exec:client": "nodemon ./client/app/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.21"
+  }
+}

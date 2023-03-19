@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package user;
+
+message Empty {}
+
+message GetSingleUser {
+    int32 id = 1;
+}
+
+message GetAllUsersResult {
+    repeated User data = 1;
+}
+
+message User {
+    enum UserRole {
+        ADMIN = 0;
+        USER = 1;
+        TEACHER = 2;
+    }
+    int32 id = 1;
+    string name = 2;
+    bool isMarried = 3;
+    repeated string skills = 4;
+    UserRole role = 5; 
+}
+
+
+message NewUserInput {
+    string name = 1;
+    bool isMarried = 2;
+    repeated string skills = 3;
+    UserRole role = 4;
+}
+
+service UserService {
+    rpc CreateUser (NewUserInput) returns (User);
+}
