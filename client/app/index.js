@@ -1,17 +1,13 @@
-const grpc = require("@grpc/grpc-js");
-const protoLoader = require("@grpc/proto-loader");
-const path = require("path");
-const userProtoPath = path.join(__dirname, "..", "..", "protos", "user.proto");
-const userProto = protoLoader.loadSync(userProtoPath);
-const userProtoGrpc = grpc.loadPackageDefinition(userProto);
-const client = new userProtoGrpc.user.UserService(
-  "localhost:8080",
-  grpc.credentials.createInsecure()
-);
-
-client.CreateUser(
-  { name: "poooo tak", isMarried: false, skills: ["rap", "music"], role: 1 },
-  (err, message) => {
-    console.log(err, message);
-  }
-);
+const express = require("express");
+const http = require("http");
+const morgan = require("morgan");
+const { grpcClient } = require("./grpc/loader");
+const app = express();
+app.use(morgan("dev"));
+app.use(express.json());
+const { UserRouter } = require("./routes/user.routes");
+app.use("/api/users", new UserRouter(grpcClient).init().getRouter());
+const server = http.createServer(app);
+server.listen(3000, () => {
+  console.log("the users app run at 3000");
+});

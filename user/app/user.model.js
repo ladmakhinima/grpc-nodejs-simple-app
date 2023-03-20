@@ -8,7 +8,7 @@ const UserModel = new Schema(
     skills: [String],
     role: Number,
   },
-  { timestamps: false }
+  { timestamps: false, _id: true }
 );
 
 UserModel.pre("save", async function (next) {

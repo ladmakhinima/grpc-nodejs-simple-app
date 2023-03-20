@@ -23,6 +23,7 @@ message User {
     bool isMarried = 3;
     repeated string skills = 4;
     UserRole role = 5; 
+    string _id = 6;
 }
 
 
@@ -33,6 +34,27 @@ message NewUserInput {
     UserRole role = 4;
 }
 
+message Users {
+    repeated User data = 1; 
+}
+
+message UserOptStatus {
+    enum OptStatus {
+        OK = 1;
+        ERR = 2;
+    }
+    OptStatus status = 1;
+}
+
+message UserUpdateInput {
+    GetSingleUser select = 1;
+    NewUserInput data = 2;
+}
+
 service UserService {
     rpc CreateUser (NewUserInput) returns (User);
+    rpc GetAllUsers (Empty) returns (Users);
+    rpc GetUserById (GetSingleUser) returns (User);
+    rpc DeleteUserById(GetSingleUser) returns (UserOptStatus);
+    rpc UpdateUserById(UserUpdateInput) returns (UserOptStatus);
 }
